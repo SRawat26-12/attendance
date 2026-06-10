@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ShieldCheck, Users, FileText, CheckCircle, XCircle, LogOut, Plus, X, UserMinus, AlertCircle, Activity } from "lucide-react";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("attendance");
   const [showModal, setShowModal] = useState(false);
@@ -27,11 +27,11 @@ export default function Admin() {
 
   const fetchData = async () => {
     const endpoint = activeTab === "attendance"
-      ? `/api/admin/all-attendance?month=${selectedMonth}&year=${selectedYear}`
-      : "/api/admin/getusers";
+      ? `/admin/all-attendance?month=${selectedMonth}&year=${selectedYear}`
+      : "/admin/getusers";
 
     try {
-      const res = await fetch(`http://localhost:5000${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
       });
       const json = await res.json();
@@ -44,7 +44,7 @@ export default function Admin() {
 
   const fetchDashboardStats = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/admin/dashboardstats", {
+      const res = await fetch(`${API_URL}/admin/dashboardstats`, {
         headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
       });
       const json = await res.json();
@@ -56,7 +56,7 @@ export default function Admin() {
 
  const fetchManagers = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/admin/getmanager", {
+    const res = await fetch(`${API_URL}/admin/getmanager`, {
       headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
     });
     
@@ -82,7 +82,7 @@ export default function Admin() {
   const handleExportCSV = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/admin/downloadcsv?month=${selectedMonth}&year=${selectedYear}`,
+        `${API_URL}/admin/downloadcsv?month=${selectedMonth}&year=${selectedYear}`,
         {
           headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
         }
@@ -110,7 +110,7 @@ export default function Admin() {
     const action = currentStatus === false ? "activate" : "deactivate";
     if (window.confirm(`Are you sure you want to ${action} ${userName}?`)) {
       try {
-        const res = await fetch(`http://localhost:5000/api/admin/deactivate/${userId}`, {
+        const res = await fetch(`${API_URL}/admin/deactivate/${userId}`, {
           method: "PATCH",
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -131,7 +131,7 @@ export default function Admin() {
   const handleAction = async (payload, recordId) => {
     const actionRemarks = remarks[recordId] || "";
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/validate`, {
+      const res = await fetch(`${API_URL}/admin/validate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,7 +156,7 @@ export default function Admin() {
   const handleCreateUser = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/admin/create-user", {
+      const res = await fetch(`${API_URL}/admin/create-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

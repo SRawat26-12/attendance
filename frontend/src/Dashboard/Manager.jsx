@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Users, Clock, LogOut, ShieldAlert, Camera, MapPin, CheckCircle, XCircle, Download } from "lucide-react";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Manager() {
   const [activeTab, setActiveTab] = useState("attendance");
   const [teamAttendance, setTeamAttendance] = useState([]);
@@ -38,7 +38,7 @@ export default function Manager() {
   const fetchTeamData = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/manager/getTeamAttendance?month=${selectedMonth}&year=${selectedYear}`, {
+      const res = await fetch(`${API_URL}/manager/getTeamAttendance?month=${selectedMonth}&year=${selectedYear}`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       const data = await res.json();
@@ -49,7 +49,7 @@ export default function Manager() {
   const fetchPendingOvertime = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/manager/getPendingOvertime", {
+      const res = await fetch(`${API_URL}/manager/getPendingOvertime`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       const data = await res.json();
@@ -64,7 +64,7 @@ export default function Manager() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/manager/${endpoint}`, {
+      const res = await fetch(`${API_URL}/manager/${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function Manager() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:5000/api/manager/downloadcsv?month=${selectedMonth}&year=${selectedYear}`,
+        `${API_URL}/manager/downloadcsv?month=${selectedMonth}&year=${selectedYear}`,
         {
           headers: { "Authorization": `Bearer ${token}` }
         }
@@ -109,7 +109,7 @@ export default function Manager() {
         a.click();
         a.remove();
       } else {
-        alert("CSV डाउनलोड करने में विफल रहा।");
+        alert("CSV failed");
       }
     } catch (err) { console.error("CSV Export error:", err); }
   };

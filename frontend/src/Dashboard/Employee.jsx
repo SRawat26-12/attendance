@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const OFFICE_LAT = 28.6139; 
 const OFFICE_LNG = 77.2090; 
 const ALLOWED_RADIUS_METERS = 100000000000; 
@@ -80,7 +80,7 @@ export default function Employee() {
   const checkPunchStatus = async () => {
     try {
       const token = localStorage.getItem("token"); 
-      const res = await fetch(`http://localhost:5000/api/punch/status/${userId}`, {
+      const res = await fetch(`${API_URL}/punch/status/${userId}`, {
         headers: { "Authorization": `Bearer ${token}` } 
       });
       const data = await res.json();
@@ -97,7 +97,7 @@ export default function Employee() {
   const fetchHistory = async () => {
     try {
       const token = localStorage.getItem("token"); 
-      const res = await fetch(`http://localhost:5000/api/punch/gethistory/${userId}`, {
+      const res = await fetch(`${API_URL}/punch/gethistory/${userId}`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       const data = await res.json();
@@ -192,7 +192,7 @@ export default function Employee() {
         throw new Error(`Out of Range! You are ${Math.round(distance)}m away.`);
       }
 
-      const res = await fetch(`http://localhost:5000/api/punch/punch${punchAction === "in" ? "In" : "Out"}`, {
+      const res = await fetch(`${API_URL}/punch/punch${punchAction === "in" ? "In" : "Out"}`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -248,7 +248,7 @@ export default function Employee() {
 
     try {
         setLoading(true);
-        const res = await fetch("http://localhost:5000/api/punch/overtimeRequest", {
+        const res = await fetch(`${API_URL}/punch/overtimeRequest`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
