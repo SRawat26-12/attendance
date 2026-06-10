@@ -1,5 +1,5 @@
 const Attendance = require("../models/attendence");
-const User = require("../models/User");
+const User = require("../models/user");
 
 
 exports.getTeamAttendance = async (req, res) => {
