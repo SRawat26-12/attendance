@@ -11,7 +11,15 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
+// index.js mein ye change karein
+app.use(cors({
+  origin: [
+    "http://localhost:5173", 
+    "https://attendance-inky-zeta.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  credentials: true
+}));
 app.use(morgan("dev"));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
