@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Attendance = require("../models/attendence");
+const Attendance = require("../models/attendance");
 
 // PUNCH STATUS
 exports.getStatus = async (req, res) => {
